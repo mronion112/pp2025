@@ -45,3 +45,14 @@ def _printListMarks(studentMarkList):
     for i in studentMarkList:
         print(f"\n{studentMarkList[i]} ")
 
+
+numberStudent = _inputNumberStudent()
+listStudent = _createListStudent(numberStudent)
+listCourses = _createListCourses()
+
+_markStudent(listCourses, numberStudent)
+_printListStudent(listStudent)
+_printListMarks(listStudent)
+
+
+

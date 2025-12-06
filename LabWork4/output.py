@@ -3,12 +3,12 @@ import curses
 
 def print_courses(stdscr, courses):
     stdscr.clear()
-    stdscr.addstr(0, 0, "--- DANH SÁCH KHÓA HỌC ---", curses.A_BOLD)
+    stdscr.addstr(0, 0, "List courses", curses.A_BOLD)
     row = 1
     for c in courses:
         stdscr.addstr(row, 0, f"ID: {c.getId()} | Tên: {c.getName()}")
         row += 1
-    stdscr.addstr(row + 1, 0, "Bấm phím bất kỳ để tiếp tục...")
+    stdscr.addstr(row + 1, 0, "Press any button to continue")
     stdscr.refresh()
     stdscr.getch()
 
@@ -18,16 +18,16 @@ def print_marks(stdscr, course):
     if not course:
         return
 
-    stdscr.addstr(0, 0, f"--- BẢNG ĐIỂM MÔN: {course.getName()} ---", curses.A_BOLD)
+    stdscr.addstr(0, 0, f"List score courses: {course.getName()}", curses.A_BOLD)
     row = 1
     marks = course.getMarks()
     students = course.getListStudents()
 
     for s in students:
         mark = marks.get(s.getId(), "Chưa nhập")
-        stdscr.addstr(row, 0, f"SV: {s.getName()} | Điểm: {mark}")
+        stdscr.addstr(row, 0, f"Student: {s.getName()} | score: {mark}")
         row += 1
 
-    stdscr.addstr(row + 1, 0, "Bấm phím bất kỳ để thoát chương trình...")
+    stdscr.addstr(row + 1, 0, "Press any button to exit ...")
     stdscr.refresh()
     stdscr.getch()

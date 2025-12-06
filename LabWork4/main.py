@@ -24,18 +24,14 @@ def main(stdscr):
     course_manager.addCourse(c2)
     course_manager.addCourse(c3)
 
-    # 2. Hiển thị danh sách khóa học
     out.print_courses(stdscr, course_manager.getListCourses())
 
-    # 3. Chọn khóa học
     selected_course = inp.select_course(stdscr, course_manager)
 
-    # 4. Nhập điểm cho từng sinh viên
     for s in selected_course.getListStudents():
         mark = inp.input_mark(stdscr, s.getName())
         selected_course.addMark(s.getId(), mark)
 
-    # 5. Hiển thị kết quả
     out.print_marks(stdscr, selected_course)
 
 
@@ -43,4 +39,4 @@ if __name__ == "__main__":
     try:
         curses.wrapper(main)
     except Exception as e:
-        print(f"Có lỗi xảy ra: {e}")
+        print(f"Something wrong: {e}")

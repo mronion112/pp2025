@@ -1,42 +1,29 @@
-import curses
-
-from domains.student import Student
-from domains.course import Course, ListCourse
-from domains.classroom import Class
 import input as inp
 import output as out
+from domains.CourseManager import CourseManager
 
+def main():
+    listStudents = inp.createListStudent()
+    out.printList(listStudents)
 
-def main(stdscr):
+    print("\nCreate listCourse")
+    listCourses = inp.createListCourses(listStudents)
 
-    s1 = Student(1, "HA", "11/11/2020")
-    s2 = Student(2, "TRUNG", "12/12/2020")
-    s3 = Student(3, "NAM", "13/13/2020")
+    out.printList(listCourses)
 
-    list_students = [s1, s2, s3]
+    courseManager = CourseManager(len(listCourses), listCourses)
+    while True:
+        choice = input("\nDo you want to mark a course? (y/n): ")
+        if choice.lower() != 'y':
+            break
 
-    c1 = Course(1, "Calculus", list_students)
-    c2 = Course(2, "Linear", list_students)
-    c3 = Course(3, "Physic", list_students)
+        result = courseManager.markStudentScoreWithCourseId()
+        out.printList(result)
 
-    course_manager = ListCourse()
-    course_manager.addCourse(c1)
-    course_manager.addCourse(c2)
-    course_manager.addCourse(c3)
-
-    out.print_courses(stdscr, course_manager.getListCourses())
-
-    selected_course = inp.select_course(stdscr, course_manager)
-
-    for s in selected_course.getListStudents():
-        mark = inp.input_mark(stdscr, s.getName())
-        selected_course.addMark(s.getId(), mark)
-
-    out.print_marks(stdscr, selected_course)
-
+    # Sắp xếp và in ra kết quả GPA
+    print("\nSorting Students by GPA")
+    courseManager.sortStudentByGPA(listStudents)
+    out.printList(listStudents)
 
 if __name__ == "__main__":
-    try:
-        curses.wrapper(main)
-    except Exception as e:
-        print(f"Something wrong: {e}")
+    main()

@@ -1,136 +1,136 @@
-class Class:
-    def __init__(self, numberStudents):
-        self._numberStudents = numberStudents
-
-    def _getNumberStudents(self):
-        return self._numberStudents
-
-    def _setNumberStudents(self, value):
-        self._numberStudents = value
+# Class list
+# Student : id, name , DoB
+# course : id, name and listStudent
+# listCourses : course
 
 
-class Student:
+from numpy import integer, number
+
+
+class Entity():
+    def __init__(self, id, name):
+        self.__id = id
+        self.__name = name
+
+    def getId(self):
+        return self.__id
+
+    def setId(self, id):
+        self.__id = id;
+
+    def getName(self):
+        return self.__name
+
+    def setName(self, name):
+        self.__name = name
+
+
+class Student(Entity):
     def __init__(self, id, name, DoB):
-        self._id = id
-        self._name = name
-        self._DoB = DoB
+        super().__init__(id, name)
+        self.__DoB = DoB
 
-    def _getId(self):
-        return self._id
-
-    def _setId(self, value):
-        self._id = value
-
-    def _getName(self):
-        return self._name
-
-    def _setName(self, value):
-        self._name = value
-
-    def _getDoB(self):
-        return self._DoB
-
-    def _setDoB(self, value):
-        self._DoB = value
+    def __str__(self):
+        return f"Student id = {super().getId()}, name = {super().getName()}, DoB = {self.__DoB}"
 
 
-class Course:
+# ListStudent will be a List
+
+
+class Course(Entity):
     def __init__(self, id, name, listStudents):
-        self._id = id
-        self._name = name
-        self._listStudents = listStudents
+        super().__init__(id, name)
+        self.__listStudent = listStudents
 
-    def _getId(self):
-        return self._id
+    def getListStudents(self):
+        return self.__listStudent
 
-    def _setId(self, value):
-        self._id = value
-
-    def _getName(self):
-        return self._name
-
-    def _setName(self, value):
-        self._name = value
-
-    def _getlistStudents(self):
-        return self._listStudents
-
-    def _setlistStudents(self, value):
-        self._listStudents = value
+    def __str__(self):
+        return f"Course id = {super().getId()}, name = {super().getName()}, listStudent "
 
 
-class ListCourse:
-    def __init__(self, numberCourses, listCourses):
-        self._numberCourses = numberCourses
-        self._listCourses = listCourses
+# ListCourse is dictionaray with key = id course and value it self
 
-    def _getNumberCourses(self):
-        return self._numberCourses
 
-    def _setNumberCourses(self, value):
-        self._numberCourses = value
+class CourseManager():  # listCour
+    def __init__(self, numberOfCourses, listCourses):
+        self.__numberOfCourses = numberOfCourses
+        self.__listCourses = listCourses
 
-    def _getlistCourses(self):
-        return self._listCourses
-
-    def _setlistCourses(self, value):
-        self._listCourses = value
-
-    def markScoreWithCourceId(self, courseId):
+    def markStudentScoreWithCourseId(self):
         listStudentMark = []
-        course_found = None
+        courseFound = None
 
-        for course in self._listCourses:
-            if course._id == courseId:
-                course_found = course
+        idCourse = int(input("Id course : "))
+
+        for course in self.__listCourses:
+            print(course)
+            if course.getId() == idCourse:
+                courseFound = course
                 break
 
-        if course_found:
-            students = course_found._getlistStudents()
-            print(f"\nNhập điểm cho khóa học: {course_found._name} (ID: {courseId})")
+        if courseFound != None:
+            print(f"The course is {courseFound.getName()}")
 
-            for student in students:
-                while True:
-                    try:
-                        markNumber = float(input(f"Điểm của sinh viên {student._name} (ID: {student._id}): "))
-                        if 0 <= markNumber <= 20:
-                            break
-                        else:
-                            print("Điểm phải nằm trong khoảng 0-20. Vui lòng nhập lại.")
-                    except ValueError:
-                        print("Nhập liệu không hợp lệ. Vui lòng nhập một số.")
-
-
-                listStudentMark.append(f"Sinh viên {student._name} (ID: {student._id}) có điểm là {markNumber}")
-
-            return listStudentMark  # Trả về danh sách điểm
+            for student in courseFound.getListStudents():
+                numberScore = float(input(f"The mark for student {student.getId()} is "))
+                listStudentMark.append(f"Student student {student.getId()} mark is {numberScore}")
         else:
-            print(f"Không tìm thấy khóa học với ID: {courseId}")
-            return []
+            print(f"Can't found the course id = {idCourse}")
+
+        return listStudentMark
+
+    def __str__(self):
+        return f"Course id ="
 
 
-class1 = Class(3)
-
-studen1 = Student(1, "HA", "11/11/2020")
-student2 = Student(2, "TRUNG", "12/12/2020")
-student3 = Student(3, "NAM", "13/13/2020")
-
-listStudent = [studen1, student2, student3]
-
-course1 = Course(1, "Calculus", listStudent)
-course2 = Course(2, "Linear", listStudent)
-course3 = Course(3, "Physic", listStudent)
-
-Couses = [course1, course2, course3]
-
-listCourses = ListCourse(len(Couses), Couses)
+def createListStudent():
+    listStudents = []
+    numberStudents = int(input("NumberStudent : "))
+    for student in range(numberStudents):
+        idStudent = int(input(f"Id student {student + 1} : "))
+        nameStudent = input("Name Student : ")
+        DoBStudent = input("DoB Student : ")
+        listStudents.append(Student(idStudent, nameStudent, DoBStudent))
+        print("\n")
+    return listStudents
 
 
-listStudentMark = listCourses.markScoreWithCourceId(1)
+def printListStudent(listStudents):
+    for student in listStudents:
+        print(f"{student}")
 
-if listStudentMark:
-    for record in listStudentMark:
-        print(record)
-else:
-    print("Không có điểm nào được nhập hoặc khóa học không tồn tại.")
 
+def createListCourses(listStudents):
+    listCourses = []
+    numberCourses = int(input("NumberCourses : "))
+    for course in range(numberCourses):
+        idCourse = int(input(f"Id course {course + 1} : "))
+        nameCourse = input("NameCourse : ")
+        print("\n")
+
+        listCourses.append(Course(idCourse, nameCourse, listStudents))
+    return listCourses
+
+
+def printListCourses(listCourses):
+    for course in listCourses:
+        print(f"{course}")
+
+
+def printListStudentMark(listStudentMark):
+    for score in listStudentMark:
+        print(score)
+
+
+listStudents = createListStudent()
+printListStudent(listStudents)
+
+print("\nCreate listCourse")
+listCourses = createListCourses(listStudents)
+printListCourses(listCourses)
+
+courseManager = CourseManager(len(listCourses), listCourses)
+print("\nMark student score with id")
+listStudentMark = courseManager.markStudentScoreWithCourseId()
+printListStudentMark(listStudentMark)
